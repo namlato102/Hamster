@@ -1,0 +1,24 @@
+image: gradle:jdk17-jammy
+
+before_script:
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+  
+stages:
+  - build
+  - test
+
+build:
+  tags:
+    - docker
+  stage: build
+  script: 
+    - 'chmod u+x gradle-build.sh'
+    - 'chmod u+x gradlew'
+    - './gradle-build.sh "$HTTP_PROXY" bootJar'
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle

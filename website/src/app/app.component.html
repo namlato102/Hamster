@@ -1,0 +1,41 @@
+<body>
+  <main class="container">
+
+<h1>Hello, {{ userName }}!</h1>
+
+<h3>Hamsters</h3>
+<p>Here are your hamsters:</p>
+
+<div>
+  <label>Filter</label>
+  <input type="text" [formControl]="filterField" />
+</div>
+
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Treats left</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let hamster of hamsters | async; even as e" [class.zebra]="e">
+      <td>{{ hamster.name }}</td>
+      <td>{{ hamster.treats }} <button (click)="giveTreat(hamster.name)">Give treat</button></td>
+      <td>{{ hamster.price }} €</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Add new hamster</h3>
+<table>
+  <tr><td>Name:</td><td><input type="text" [(ngModel)]="newHamsterName" /></td></tr>
+  <tr><td>Treats:</td><td><input type="text" [(ngModel)]="newHamsterTreats" /></td></tr>
+  <tr><td></td><td><button (click)="addHamster()">Add Hamster</button></td></tr>
+</table>
+
+<h3>Collect</h3>
+<button (click)="collect()">Collect them all</button>
+  </main>
+</body>

@@ -1,0 +1,65 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+hamster
+!tests/hamster
+!HamsterRPC_Client/src/main/java/de/hsrm/cs/wwwvs/hamster
+!HamsterRPC_Client/src/test/java/de/hsrm/cs/wwwvs/hamster
+!src/main/java/de/hsrm/cs/wwwvs/hamster
+hamster_server
+hamsterfile.dat
+hamsterdatastore.xml
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# IDEs
+**/.vscode/
+**/.idea/
+
+# Java client
+*/.gradle/
+*/build/
+*/bin/
+!gradle/wrapper/gradle-wrapper.jar

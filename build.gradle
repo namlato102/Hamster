@@ -1,0 +1,27 @@
+plugins {
+	id 'java'
+}
+
+group = 'de.hsrm.cs.wwwvs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.server.HamsterServerCommandLine'
+    }
+    archiveName "hamster_server.jar"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

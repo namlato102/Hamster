@@ -1,0 +1,38 @@
+image: gradle:jdk17-jammy
+
+before_script:
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+  
+stages:
+  - build
+  - test
+
+build:
+  tags:
+    - docker
+  stage: build
+  script: 
+    - 'chmod u+x gradle-build.sh'
+    - 'chmod u+x gradlew'
+    - './gradle-build.sh "$HTTP_PROXY" jar'
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle
+
+test-code-job1:
+  tags:
+    - docker
+  stage: test
+  script:
+    - 'chmod u+x gradle-build.sh'
+    - 'chmod u+x gradlew'
+    - './gradle-build.sh "$HTTP_PROXY" jar'
+    - 'java -jar tests/TestRunnerHamster.jar -P "java -jar build/libs/hamster_server.jar" -H "java -jar tests/hamster.jar" -F hamsterdatastore.xml > testresult.txt'
+  artifacts:
+    when: always
+    paths:
+      - testresult.txt

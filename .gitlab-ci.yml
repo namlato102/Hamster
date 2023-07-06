@@ -1,0 +1,51 @@
+image: mcr.microsoft.com/dotnet/sdk:7.0
+
+before_script:
+  - 'apt update'
+  - 'apt install -yq openjdk-17-jdk'
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+
+variables:
+  OBJECTS_DIRECTORY: 'obj'
+  NUGET_PACKAGES_DIRECTORY: '.nuget'
+  SOURCE_CODE_PATH: '*/*/'
+
+cache:
+  key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+  paths:
+    - '$SOURCE_CODE_PATH$OBJECTS_DIRECTORY/project.assets.json'
+    - '$SOURCE_CODE_PATH$OBJECTS_DIRECTORY/*.csproj.nuget.*'
+    - '$NUGET_PACKAGES_DIRECTORY'
+  policy: pull-push
+  
+stages:
+  - build
+  - test
+
+build:
+  tags:
+    - podman
+  stage: build
+  script:
+    - 'chmod u+x gradle-build.sh'
+    - 'chmod u+x gradlew'
+    - './gradle-build.sh "$HTTP_PROXY" jar'
+
+
+test-code-job1:
+  tags:
+    - podman
+  stage: test
+  script:
+    - 'chmod u+x gradle-build.sh'
+    - 'chmod u+x gradlew'
+    - './gradle-build.sh "$HTTP_PROXY" jar'
+    - 'dotnet restore HamsterIoHTests/HamsterIoHTests.csproj --packages $NUGET_PACKAGES_DIRECTORY'
+    - 'dotnet test HamsterIoHTests/HamsterIoHTests.csproj --no-restore --logger "junit;LogFilePath=testresults.xml" || echo "some tests failed"'
+  artifacts:
+    when: always
+    paths:
+      - 'HamsterIoHTests/testresults.xml'
+    reports:
+      junit: 'HamsterIoHTests/testresults.xml'

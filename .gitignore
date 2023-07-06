@@ -1,0 +1,35 @@
+.vs/
+**/obj/
+**/bin/
+**/*.csproj.user
+Build/
+**/launchSettings.json
+**/*.nupkg
+/Tests/Generator.Tests/Properties/PublishProfiles
+*.user
+
+### VS Code ###
+.vscode/
+
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# IDEs
+**/.vscode/
+**/.idea/
+.idea/
+
+# Java build artifacts
+.gradle/
+build/
+bin/
+
+# Test results
+HamsterIoHTests/testresults.xml

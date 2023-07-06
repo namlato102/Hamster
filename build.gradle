@@ -1,0 +1,24 @@
+plugins {
+	id 'java'
+}
+
+group = 'de.hsrm.cs.wwwvs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.console.CommandLineInterface'
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.6'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'de.hsrm.cs.wwwvs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+var resilience4jVersion = '2.0.0'
+
+task hamster(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.console.CommandLineInterface'
+    }
+    archiveName "hamster.jar"
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.output) {
+        include "de/hsrm/cs/wwwvs/hamster/lib/**"
+        include "de/hsrm/cs/wwwvs/hamster/console/**"
+    }
+
+}
+
+tasks.named("bootJar") {
+    mainClass = 'de.hsrm.cs.wwwvs.hamster.server.HamsterServerCommandLine'
+    archiveName = 'hamster_server.jar'
+}
+
+task hamster_client(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.client.ClientCommandLine'
+    }
+    archiveName "hamster_client.jar"
+    duplicatesStrategy DuplicatesStrategy.INCLUDE
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(sourceSets.main.output) {
+        include "de/hsrm/cs/wwwvs/hamster/client/**"
+        include "de/hsrm/cs/wwwvs/hamster/rpc/**"
+        include "de/hsrm/cs/wwwvs/hamster/server/DTO/**"
+    }
+}
+
+repositories {
+	mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "io.github.resilience4j:resilience4j-all:${resilience4jVersion}"
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

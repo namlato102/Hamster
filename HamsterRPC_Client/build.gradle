@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+}
+
+group = 'de.hsrm.cs.wwwvs'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+task test_runner_jar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.tests.HamsterTestRunner'
+    }
+    archiveName "TestRunnerHamster.jar"
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(sourceSets.test.output) {
+        include "de/hsrm/cs/wwwvs/hamster/**"
+    }
+}
+
+task resilience_runner_jar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'de.hsrm.cs.wwwvs.hamster.tests.ResilienceRunner'
+    }
+    archiveName "ResilienceRunnerHamster.jar"
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from(sourceSets.test.output) {
+        include "de/hsrm/cs/wwwvs/hamster/**"
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation "junit:junit:4.12"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.8.2"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

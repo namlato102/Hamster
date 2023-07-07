@@ -7,7 +7,7 @@ Build/
 **/*.nupkg
 /Tests/Generator.Tests/Properties/PublishProfiles
 *.user
-.certs/
+cert/
 ### VS Code ###
 .vscode/
 
